@@ -3,8 +3,10 @@
 // import (
 // 	"fmt"
 // 	"time"
-
+// 	// "log"
 // 	"github.com/mouryaraju8889/timezoner/pkg/timezone"
+// 	"context"
+
 // )
 
 // func main() {
@@ -83,5 +85,58 @@
 // 			fmt.Printf("Timestamp: %d → Unit: %s\n", ts, unit)
 // 		}
 // 	}
+
+
+// 	input := "yesterday at 5pm"
+
+// 	parsedTime, err := timezone.ParseNaturalDate(input)
+// 	if err != nil {
+// 		fmt.Println("Error parsing natural date:", err)
+// 		return
+// 	}
+
+// 	fmt.Println("Parsed natural language date:", parsedTime.Format(time.RFC1123))
+
+
+// 	// ch := make(chan time.Time)
+
+// 	// // Create context with cancel to stop the goroutine
+// 	// ctx, cancel := context.WithCancel(context.Background())
+
+// 	// // Start the background goroutine
+// 	// go timezone.StreamCurrentTime(ctx, ch)
+
+// 	// // Receive and print times from the channel
+// 	// for currentTime := range ch {
+// 	// 	fmt.Println("Tick at:", currentTime.Format("2006-01-02 15:04:05"))
+
+// 	// 	// Stop after 5 ticks for demonstration
+// 	// 	if currentTime.Second()%5 == 0 {
+// 	// 		fmt.Println("Main: Stopping stream")
+// 	// 		cancel()
+// 	// 		break
+// 	// 	}
+// 	// }
+
+// 	// // Give some time to clean up
+// 	// time.Sleep(500 * time.Millisecond)
+// 	// fmt.Println("Main: Finished.")
+
+// 	ch := make(chan time.Time)
+// 	ctx, cancel := context.WithCancel(context.Background())
+
+// 	// Start the goroutine to stream time in a specific timezone
+// 	go timezone.StreamCurrentTimeInZone(ctx, ch, "America/New_York")
+
+// 	count := 0
+// 	for t := range ch {
+// 		fmt.Println("Time in timezone:", t.Format("2006-01-02 15:04:05"))
+// 		count++
+// 		if count >= 5 {
+// 			cancel() // Stop after 5 ticks
+// 		}
+// 	}
+
+// 	fmt.Println("Main: Done streaming.")
 
 // }
