@@ -1,12 +1,13 @@
 package timezone
 
-
 import (
-	"time"
-	// "fmt"
 	"errors"
-)
+	"fmt"
+	"time"
 
+	"github.com/olebedev/when"
+	"github.com/olebedev/when/rules/en"
+)
 
 func ParseWithNearestFormat(timeStr string) (string, error) {
 	//use ListFormats() to get the formats
@@ -21,13 +22,11 @@ func ParseWithNearestFormat(timeStr string) (string, error) {
 	return "", errors.New("no matching format found")
 }
 
-
-
 func ParseTimeUnit(timestamp uint64) (string, error) {
 	// Define reasonable epoch ranges
-	lowerBound := uint64(0)           // Epoch start (1970)
-	now := uint64(time.Now().Unix())  // Current Unix time in seconds
-	upperBound := now + 10            // Allow slight future timestamps
+	lowerBound := uint64(0)          // Epoch start (1970)
+	now := uint64(time.Now().Unix()) // Current Unix time in seconds
+	upperBound := now + 10           // Allow slight future timestamps
 
 	// Convert timestamp to different units
 	seconds := timestamp
@@ -48,4 +47,19 @@ func ParseTimeUnit(timestamp uint64) (string, error) {
 	default:
 		return "", errors.New("invalid timestamp: out of expected range")
 	}
+}
+
+func ParseNaturalDate(input string) (time.Time, error) {
+	w := when.New(nil)
+
+	// Load English language rules
+	w.Add(en.All...)
+
+	// Parse input
+	result, err := w.Parse(input, time.Now())
+	if err != nil || result == nil {
+		return time.Time{}, fmt.Errorf("could not parse input: %s", input)
+	}
+
+	return result.Time, nil
 }
