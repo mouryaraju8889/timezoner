@@ -139,4 +139,14 @@
 
 // 	fmt.Println("Main: Done streaming.")
 
+
+// 	lastMonday, err := timezone.GetLastWeekdayOfMonth(2025, time.April, time.Thursday)
+// 	if err != nil {
+// 		fmt.Println("Error:", err)
+// 		return
+// 	}
+
+// 	fmt.Println("Last Thursday of April 2025 is:", lastMonday.Format("2006-01-02"))
+
+
 // }
